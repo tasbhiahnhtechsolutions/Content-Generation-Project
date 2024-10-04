@@ -7,15 +7,16 @@ from Google import Create_Service
 import openai
 import os
 import re
-import config
+from decouple import config
 import zipfile
 from  groq import Groq
 import anthropic
+from docx.shared import Inches
 
 # Set OpenAI key
-openai.api_key = config.OPENAI_API_KEY
-os.environ['GROQ_API_KEY']=config.GROQ_API_KEY
-os.environ['ANTHROPIC_API_KEY']=config.ANTHROPIC_API_KEY
+openai.api_key = config['OPENAI_API_KEY']
+os.environ['GROQ_API_KEY']=config['GROQ_API_KEY']
+os.environ['ANTHROPIC_API_KEY']=config['ANTHROPIC_API_KEY']
 
 
 # Google Drive API setup
@@ -212,6 +213,14 @@ if run_process and group:
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
                             doc = Document()
+                            section = doc.sections[0]
+                            header = section.header
+
+                            # Add a paragraph to the header and insert the logo image on the left
+                            header_paragraph = header.paragraphs[0]
+                            logo_path = 'logos_proj.jpeg'  # Replace with the actual path to your logo
+                            run = header_paragraph.add_run()
+                            run.add_picture(logo_path, width=Inches(4))
                             format_content(doc, result)
                             doc.save(college_response_file)
                             st.write(f"Saved: {college_response_file}")
@@ -232,6 +241,14 @@ if run_process and group:
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
                             doc = Document()
+                            section = doc.sections[0]
+                            header = section.header
+
+                            # Add a paragraph to the header and insert the logo image on the left
+                            header_paragraph = header.paragraphs[0]
+                            logo_path = 'logos_proj.jpeg'  # Replace with the actual path to your logo
+                            run = header_paragraph.add_run()
+                            run.add_picture(logo_path, width=Inches(4))
                             format_content(doc, result)
                             doc.save(college_response_file)
                             st.write(f"Saved: {college_response_file}")

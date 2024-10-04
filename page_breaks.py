@@ -79,45 +79,63 @@ def upload_to_drive(service, file_name, file_path, folder_id):
 
 # Function to generate prompt for GPT
 def prompt_generator(content):
-    prompt = f"""
-      Using the information and instructions provided in {docx_content}, generate a message in the following format, including the headings (Talking Points, Social Media Topic Ideas, Text Messaging Talking Points).Ensure that each heading contains at least 5-6 bullet points.Make sure that the section under **TRS Messages** includes the four points listed below, and replace the placeholder values like <College> and <Sport> with the appropriate names from the {docx_content}. Ensure that **TRS Messages** along with its bullet points appear on the first page. Ensure that 
-      **<College> <Sport>**
-      **Sept./Oct./Nov./Dec. 2024**
-      **TRS Messages**
-      - The residence halls and general everyday life on campus for students and athletes are September’s topics, and we know from our research with your team at <college1> - and others around the country - that this is a big area of interest for this generation of recruits.
-      - In October, you’ll focus on the overall athletic climate at <College>. Your messages will give your prospects a solid idea of what it’ll be like to compete for your program and be a part of the <College1> campus community as an athlete and a student.
-      - In November, you’ll be focusing on the athletic facilities at <college1>. We’ll combine that conversation with your training philosophy to show your recruits how you’ll get them ready to compete at the college level.
-      - In December, you’ll focus on your <sport> team at <college1> and you’ll be doing things like exploring the team atmosphere based on the findings in your focus group survey in these messages.
-      Fetch all these placeholder values from {docx_content}.Make sure to include these points under TRS Messages heading.
+    prompt_temp = f"""
+    Based on the provided content from {docx_content}, generate a recruiting message in the format below. Maintain the structure and include the specified headings, subheadings, and bullet points.
 
-      For September, focus on residence halls and general everyday life on campus for both students and athletes. According to our research with your team at <college1> and other colleges across the country, this is a key area of interest for this generation of recruits.
-      October: Highlight the overall athletic climate at <College>, showcasing what it’s like to compete and be part of the campus community as both an athlete and a student.
-      November: Emphasize the athletic facilities and training philosophy at <College>, demonstrating how recruits will be prepared for college-level competition.
-      December: Focus on the <sport> team atmosphere at <College>, incorporating insights from the focus group survey to explore team dynamics.
+    **<College> <Sport>**
+    **Sept./Oct./Nov./Dec. 2024**
+    **TRS Messages**
+    - The residence halls and general everyday life on campus for students and athletes are September’s topics, and we know from our research with your team at <college1> - and others around the country - that this is a big area of interest for this generation of recruits.
+    - In October, you’ll focus on the overall athletic climate at <College>. Your messages will give your prospects a solid idea of what it’ll be like to compete for your program and be a part of the <College1> campus community as an athlete and a student.
+    - In November, you’ll be focusing on the athletic facilities at <college1>. We’ll combine that conversation with your training philosophy to show your recruits how you’ll get them ready to compete at the college level.
+    - In December, you’ll focus on your <sport> team at <college1> and you’ll be doing things like exploring the team atmosphere based on the findings in your focus group survey in these messages.
+    Fetch all these placeholder values from {docx_content}
 
-     Make sure that each month include the headings (Talking Points, Social Media Topic Ideas, Text Messaging Talking Points).
+    **For September:**
+    Highlight residence halls and daily student-athlete life. This aligns with research from <College1> and other institutions.
+
+    **Talking Points (5-6 bullet points)**
+
+    **Social Media Topic Ideas (5-6 bullet points)**
+
+    **Text Messaging Talking Points (5-6 bullet points)**
+
+    **For October:**
+    Showcase the athletic experience at <College>—what it’s like being part of the athletic community.
+
+    **Talking Points (5-6 bullet points)**
+
+    **Social Media Topic Ideas (5-6 bullet points)**
+
+    **Text Messaging Talking Points (5-6 bullet points)**
+
+    **For November:**
+    Emphasize facilities and training that prepare recruits for college-level competition.
+
+    **Talking Points (5-6 bullet points)**
+
+    **Social Media Topic Ideas (5-6 bullet points)**
+
+    **Text Messaging Talking Points (5-6 bullet points)**
+
+    **For December:**
+    Focus on team dynamics and atmosphere. Include relevant insights from focus group surveys.
+
+    **Talking Points (5-6 bullet points)**
+
+    **Social Media Topic Ideas (5-6 bullet points)**
+
+    **Text Messaging Talking Points (5-6 bullet points)**
+
+    Ensure that the headings, subheadings, and bullet points remain organized, and include the appropriate page breaks for each section in the final output. Make sure every college follows the same template structure.
+
+    Make the text conversational, engaging for a 16 to 18-year-old audience, prompting them to respond and interact with the coach who is sending it. Correct any grammatical errors as needed.
+
+    VERY IMPORTANT: Ensure proper spacing between paragraphs in the revised text.
 """
-    return prompt
-# def prompt_generator(content):
-#     prompt="""
-#         Using the information and instructions provided in {docx_content}, generate a message in the following format. Make sure that the section under **TRS Messages** includes the four points listed below, and replace the placeholder values like <College> and <Sport> with the appropriate names from the {docx_content}. Ensure that **TRS Messages** along with its bullet points appear on the first page.
+    return prompt_temp
 
-#         **<College> <Sport>**
-#         **Sept./Oct./Nov./Dec. 2024**
-#         **TRS Messages**
-#         - The residence halls and general everyday life on campus for students and athletes are September’s topics, and we know from our research with your team at <College> - and others around the country - that this is a big area of interest for this generation of recruits.
-#         - In October, you’ll focus on the overall athletic climate at <College>. Your messages will give your prospects a solid idea of what it’ll be like to compete for your program and be a part of the <College> campus community as an athlete and a student.
-#         - In November, you’ll be focusing on the athletic facilities at <College>. We’ll combine that conversation with your training philosophy to show your recruits how you’ll get them ready to compete at the college level.
-#         - In December, you’ll focus on your <Sport> team at <College>, and you’ll be doing things like exploring the team atmosphere based on the findings in your focus group survey in these messages.
-
-#         For September, focus on residence halls and general everyday life on campus for both students and athletes. According to our research with your team at <College> and other colleges across the country, this is a key area of interest for this generation of recruits.
-#         October: Highlight the overall athletic climate at <College>, showcasing what it’s like to compete and be part of the campus community as both an athlete and a student.
-#         November: Emphasize the athletic facilities and training philosophy at <College>, demonstrating how recruits will be prepared for college-level competition.
-#         December: Focus on the <Sport> team atmosphere at <College>, incorporating insights from the focus group survey to explore team dynamics.
-
-#         Make sure that each month includes the following headings: **Talking Points**, **Social Media Topic Ideas**, and **Text Messaging Talking Points**. Each of these headings should have at least 5-6 bullet points.
-#     """
-#     return prompt
+#
 
 def prompt_generator_for_sonnet(content):
     prompt_temp = f"""
@@ -128,38 +146,54 @@ def prompt_generator_for_sonnet(content):
     **TRS Messages**
     - The residence halls and general everyday life on campus for students and athletes are September’s topics, and we know from our research with your team at <college1> - and others around the country - that this is a big area of interest for this generation of recruits.
     - In October, you’ll focus on the overall athletic climate at <College>. Your messages will give your prospects a solid idea of what it’ll be like to compete for your program and be a part of the <College1> campus community as an athlete and a student.
-    In November, you’ll be focusing on the athletic facilities at <college1>. We’ll combine that conversation with your training philosophy to show your recruits how you’ll get them ready to compete at the college level.
+    - In November, you’ll be focusing on the athletic facilities at <college1>. We’ll combine that conversation with your training philosophy to show your recruits how you’ll get them ready to compete at the college level.
     - In December, you’ll focus on your <sport> team at <college1> and you’ll be doing things like exploring the team atmosphere based on the findings in your focus group survey in these messages.
     Fetch all these placeholder values from {docx_content}
 
     **For September:**
     Highlight residence halls and daily student-athlete life. This aligns with research from <College1> and other institutions.
+
     **Talking Points (5-6 bullet points)**
+
     **Social Media Topic Ideas (5-6 bullet points)**
+
     **Text Messaging Talking Points (5-6 bullet points)**
 
     **For October:**
     Showcase the athletic experience at <College>—what it’s like being part of the athletic community.
+
     **Talking Points (5-6 bullet points)**
+
     **Social Media Topic Ideas (5-6 bullet points)**
+
     **Text Messaging Talking Points (5-6 bullet points)**
 
     **For November:**
     Emphasize facilities and training that prepare recruits for college-level competition.
+
     **Talking Points (5-6 bullet points)**
+
     **Social Media Topic Ideas (5-6 bullet points)**
-    **Text Messaging Talking Points (5-6 bullet points**
+
+    **Text Messaging Talking Points (5-6 bullet points)**
 
     **For December:**
     Focus on team dynamics and atmosphere. Include relevant insights from focus group surveys.
+
     **Talking Points (5-6 bullet points)**
+
     **Social Media Topic Ideas (5-6 bullet points)**
+
     **Text Messaging Talking Points (5-6 bullet points)**
-    
-    The final output should strictly follow the template format provided above.
-    Ensure that the headings, subheadings, and bullet points remain organized in the final output.
-    """
+
+    Ensure that the headings, subheadings, and bullet points remain organized, and include the appropriate page breaks for each section in the final output. Make sure every college follows the same template structure.
+
+    Make the text conversational, engaging for a 16 to 18-year-old audience, prompting them to respond and interact with the coach who is sending it. Correct any grammatical errors as needed.
+
+    VERY IMPORTANT: Ensure proper spacing between paragraphs in the revised text.
+"""
     return prompt_temp
+
 
 # Function to format and save content in .docx
 def format_content(doc, content):

@@ -7,15 +7,15 @@ from Google import Create_Service
 import openai
 import os
 import re
-import config
+from decouple import config
 import zipfile
 from  groq import Groq
 import anthropic
 
 # Set OpenAI key
-openai.api_key = config.OPENAI_API_KEY
-os.environ['GROQ_API_KEY']=config.GROQ_API_KEY
-os.environ['ANTHROPIC_API_KEY']=config.ANTHROPIC_API_KEY
+openai.api_key = config['OPENAI_API_KEY']
+os.environ['GROQ_API_KEY']=config['GROQ_API_KEY']
+os.environ['ANTHROPIC_API_KEY']=config['ANTHROPIC_API_KEY']
 
 
 # Google Drive API setup
