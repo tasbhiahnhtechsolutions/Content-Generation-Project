@@ -159,6 +159,7 @@ IMPORTANT: Remove any template or boilerplate messages from the system or tool t
 #     """
 #     return prompt
 
+
 def prompt_generator_for_sonnet(content):
     prompt_temp = f"""
     Based on the provided content from {docx_content}, generate a recruiting message in the format below. Maintain the structure and include the specified headings, subheadings, and bullet points.
@@ -236,6 +237,7 @@ def zip_folder(folder_path, output_path):
 st.title("Content Generator")
 group = st.text_input("Enter group name:")
 model_selection = st.selectbox("Choose Model", ["ChatGPT-4", "LLaMA3", "Sonnet"])
+cycle = st.selectbox("Choose Model", ["Jan./Feb./Mar./April. 2024", "LLaMA3", "Sonnet"])
 run_process = st.button("Generate Responses")
 
 if run_process and group:
