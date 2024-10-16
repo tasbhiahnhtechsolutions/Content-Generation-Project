@@ -205,21 +205,85 @@ def prompt_generator_for_sonnet(content):
     return prompt_temp
 
 # Function to format and save content in .docx
-def format_content(doc, content):
+# def format_content(doc, content):
+#     lines = content.splitlines()
+#     for line in lines:
+#         line = line.strip()
+#         if not line:
+#             continue
+#         if re.match(r'^\*\*.+\*\*$', line):
+#             doc.add_heading(line.replace('**', ''), level=1)
+#         elif re.match(r'^\*.+\*$', line):
+#             doc.add_heading(line.replace('*', ''), level=2)
+#         elif line.startswith("-"):
+#             if len(line) > 5:
+#                 doc.add_paragraph(line[1::], style='List Bullet')
+#         else:
+#             doc.add_paragraph(line)
+
+import re
+from docx import Document
+
+def format_content(doc: Document, content: str):
     lines = content.splitlines()
+    collecting_content = False
+    current_heading = None
+
+    # Helper functions to match patterns
+    def is_month_heading(text):
+        return re.match(r'^For\s\w+:', text.strip())
+
+    def is_heading(text):
+        return re.match(r'^\*\*.*\*\*$', text.strip())
+
+    def get_heading_text(text):
+        return text.strip().strip('*')
+
+    def is_talking_points(heading_text):
+        return heading_text == 'Talking Points'
+
+    def is_social_media_topic_ideas(heading_text):
+        return heading_text == 'Social Media Topic Ideas'
+
+    def is_text_messaging_talking_points(heading_text):
+        return heading_text == 'Text Messaging Talking Points'
+
     for line in lines:
         line = line.strip()
         if not line:
             continue
-        if re.match(r'^\*\*.+\*\*$', line):
-            doc.add_heading(line.replace('**', ''), level=1)
-        elif re.match(r'^\*.+\*$', line):
-            doc.add_heading(line.replace('*', ''), level=2)
-        elif line.startswith("-"):
-            if len(line) > 5:
-                doc.add_paragraph(line[1::], style='List Bullet')
+
+        # Check if the line is a heading
+        if is_heading(line):
+            heading_text = get_heading_text(line)
+
+            # Add a page break if a new heading starts
+            if current_heading:
+                doc.add_page_break()
+
+            # Identify the type of heading
+            if is_month_heading(heading_text):
+                doc.add_heading(heading_text, level=1)
+            elif is_talking_points(heading_text):
+                doc.add_heading(heading_text, level=1)
+            elif is_social_media_topic_ideas(heading_text) or is_text_messaging_talking_points(heading_text):
+                doc.add_heading(heading_text, level=1)
+            else:
+                doc.add_heading(heading_text, level=1)
+
+            current_heading = heading_text
+            collecting_content = True  # Start collecting content after the heading
         else:
-            doc.add_paragraph(line)
+            # Add bullet points or paragraphs after starting collection
+            if collecting_content:
+                if line.startswith("-"):
+                    # Handle bullet points
+                    doc.add_paragraph(line[1:].strip(), style='List Bullet')
+                else:
+                    doc.add_paragraph(line)
+
+    return doc, content
+
 
 
 

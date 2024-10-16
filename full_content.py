@@ -106,17 +106,17 @@ In September The residence halls and general everyday life on campus for student
 In October: The athletic atmosphere at <college1> will be the focus, giving recruits an idea of what it’s like to compete and live as a student-athlete at <college1>.
 In November: The athletic facilities at <college1> will be highlighted, emphasizing how your training philosophy prepares athletes to compete at the collegiate level.
 In December: We’ll focus on the <sport> team at <college1>, including insights into the team atmosphere, based on recent findings from your focus group survey.
-**VERY IMPORTANT**: Ensure each section contains more content, with longer sentences under each heading to provide comprehensive information.
-   
+*VERY IMPORTANT*: Ensure each section contains more content, with longer sentences under each heading to provide comprehensive information.
+
 For each month ({full_months[0]}, {full_months[1]}, {full_months[2]}, and {full_months[3]}), follow this structure:
 
 For [Month]:
 
 **Main Topic**: The randomly assigned topic for that month.
-**Talking Points (6-8 bullet points in question form)**:  The talking points should explore the student's personal preferences, concerns, and expectations. Make sure the questions are open-ended and encourage the student to reflect on their experiences and aspirations. Use a friendly and informal tone, as if a college recruiter or coach is having a one-on-one conversation with the student.
+**Talking Points (8 elaborated points in question form)**:  The talking points should explore the student's personal preferences, concerns, and expectations. Make sure the questions are open-ended and encourage the student to reflect on their experiences and aspirations. Use a friendly and informal tone, as if a college recruiter or coach is having a one-on-one conversation with the student.
 Make sure that all the points are detailed.
-**Social Media Topic Ideas (7-8 bullet points)**: Suggest detailed creative ideas for social media posts that the college can use to promote the main topic of the month.
-**Text Messaging Talking Points (6-8 bullet points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
+**Social Media Topic Ideas (8 elaborated points)**: Suggest detailed creative ideas for social media posts that the college can use to promote the main topic of the month.
+**Text Messaging Talking Points (8 elaborated points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
 Ensure each section contains longer sentences with detailed content that can be easily understood by teenagers. Make sure the headings, subheadings, and bullet points remain well-organized in the final output.
 
 Ensure the output aligns with the template format below:
@@ -124,48 +124,39 @@ Ensure the output aligns with the template format below:
 **<College Name> <Sport>**
 **{user_input}**
 **TRS Messages**
-In {full_months[0]} The residence halls and general everyday life on campus for students and athletes will be the focus, based on your team’s feedback at <college1> and others nationwide. This is an important topic for this generation of recruits.
-In {full_months[1]}: The athletic atmosphere at <college1> will be the focus, giving recruits an idea of what it’s like to compete and live as a student-athlete at <college1>.
-In {full_months[2]}: The athletic facilities at <college1> will be highlighted, emphasizing how your training philosophy prepares athletes to compete at the collegiate level.
-In {full_months[3]}: We’ll focus on the <sport> team at <college1>, including insights into the team atmosphere, based on recent findings from your focus group survey.
+In {full_months[0]} Brief description about randomly assigned topic 1 in the same format as provide above.
+In {full_months[1]}: Brief description about randomly assigned topic 2 in the same format as provide above.
+In {full_months[2]}: Brief description about randomly assigned topic 3 in the same format as provide above.
+In {full_months[3]}: Brief description about randomly assigned topic 4 in the same format as provide above.
+**For {full_months[0]}: Main Topic**
+**Talking Points**
+**Social Media Topic Ideas**
+**Text Messaging Talking Points**
 
-**For {full_months[0]}:**
-**Talking Points **
-**Social Media Topic Ideas **  
-**Text Messaging Talking Points **
+**For {full_months[1]}: Main Topic**
+**Talking Points**
+**Social Media Topic Ideas**
+**Text Messaging Talking Points**
 
-**For {full_months[1]}:**
-**Talking Points **  
-**Social Media Topic Ideas **  
-**Text Messaging Talking Points **
+**For {full_months[2]}: Main Topic**
+**Talking Points**
+**Social Media Topic Ideas**
+**Text Messaging Talking Points**
 
-**For {full_months[2]}:**
-**Talking Points **  
-**Social Media Topic Ideas **  
-**Text Messaging Talking Points **
+**For {full_months[3]}: Main Topic**
+**Talking Points**
+**Social Media Topic Ideas**
+**Text Messaging Talking Points**
 
-**For {full_months[3]}:**
-**Talking Points **  
-**Social Media Topic Ideas **  
-**Text Messaging Talking Points **
-
+Make the text more conversational, and write it in a way that would make a 16 to 18 year old teenager engage with the content and be prompted to respond and interact with the coach who is sending these
+Look for any grammatical errors and correct them.
+VERY IMPORTANT: Place the proper spacing between paragraphs in the revised text
+Keep the same layout format in place when you construct your revised text
 Use the content from the {docx_content} to fill in the placeholders for the talking points, social media ideas, and text messaging points.
 Ensure that the headings, subheadings, and bullet points remain organized in the final output.
 Make sure every college follows the same template structure.
 ONLY include the content necessary for generating the recruiting message. Do not add any extra or irrelevant details.
 
-IMPORTANT: Remove any template or boilerplate messages from the system or tool that appears at the beginning or end of the generated content, especially before the main heading or after the last section, to ensure only relevant content is included.
-Additionally, write a friendly, conversational email for a college coach to send to a prospective student-athlete. The email should introduce the topic of living on campus, specifically focusing on dorm life, and encourage the prospect to engage in a conversation. The tone should be personal, warm, and motivational, with the coach sharing their own experience and enthusiasm. 
-
-    Include a suggested subject line and sign-off with the coach's details.
-    The email should be written in a following format:
-    
-    **Topic**: "Dorms/Campus Life"
-    **Month**: "{full_months[0]}"
-
-    **WEEK 2**
-    **Email 1**:
-    Make sure each college has its own corresponding email.
 """
 
     return prompt
@@ -233,16 +224,7 @@ def prompt_generator_for_sonnet(content,user_input,full_months):
     Make the text conversational, engaging for a 16 to 18-year-old audience, prompting them to respond and interact with the coach who is sending it. Correct any grammatical errors as needed.
     VERY IMPORTANT: Ensure proper spacing between paragraphs in the revised text.
 
-    Additionally, write a friendly, conversational email for a college coach to send to a prospective student-athlete. The email should introduce the topic of living on campus, specifically focusing on dorm life, and encourage the prospect to engage in a conversation. The tone should be personal, warm, and motivational, with the coach sharing their own experience and enthusiasm. 
-
-    Include a suggested subject line and sign-off with the coach's details.
-    The email should be written in a following format:
     
-    **Topic**: "Dorms/Campus Life"
-    **Month**: "{full_months[0]}"
-
-    **WEEK 2**
-    **Email 1**:
     
 
 

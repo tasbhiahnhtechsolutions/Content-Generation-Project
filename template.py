@@ -175,7 +175,7 @@ def prompt_generator_for_sonnet(content):
 
     **For September:**
     Highlight residence halls and daily student-athlete life. This aligns with research from <College1> and other institutions.
-    **Talking Points (5-6 bullet points)**:It should often be questions or suggestions of things for the coach to send via text message to the recruit.
+    **Talking Points (5-6 bullet points)**:Develop detailed, easy-to-understand questions related to the main topic for each month, providing comprehensive information for teenage recruits..It should often be questions or suggestions of things for the coach to send via text message to the recruit.
     **Social Media Topic Ideas (5-6 bullet points)**
     **Text Messaging Talking Points (5-6 bullet points)**:It should often be questions or suggestions of things for the coach to send via text message to the recruit.
 
