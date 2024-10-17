@@ -249,6 +249,19 @@ def format_content(doc, content):
             doc.add_paragraph(line)
 
 
+# Function to extract headings using regex from a plain string
+def extract_headings(paragraphs):
+    headings = []
+    for para in paragraphs:
+        # No need to access para.text, as para is already a string
+        if re.match(r'^\*\*.*\*\*$', para.strip()):  # Check if the line is a heading
+            headings.append(para.strip().strip('*'))
+    return headings
+
+
+
+
+
 
 def zip_folder(folder_path, output_path):
     with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
@@ -333,9 +346,31 @@ if run_process and group:
                             )
                             result = response.choices[0].message['content']
                             print(result)
+                            # extract_headings(result)
+                           # Now you can pass result.splitlines() to extract_headings since result is a string
+                            all_headings = extract_headings(result.splitlines())
+                            print("all_headings:", all_headings)
+
+                            # Ensure there are enough headings to prevent IndexError
+                            if len(all_headings) >= 3:
+                                first_heading = all_headings[0]
+                                second_heading = all_headings[1]
+                                third_heading = all_headings[2]
+                                headings = all_headings[3:]
+                                print("first_heading:", first_heading)
+                                print("second_heading:", second_heading)
+                                print("third_heading:", third_heading)
+                                print("headings:", headings)
+                            else:
+                                print("Not enough headings found in the document.")
+                                first_heading = ""
+                                second_heading = ""
+                                third_heading = ""
+                                headings = []
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
                             doc = Document()
+                            format_content(doc, result)
                             section = doc.sections[0]
                             header = section.header
 
@@ -344,7 +379,103 @@ if run_process and group:
                             logo_path = 'logos_proj.jpeg'  # Replace with the actual path to your logo
                             run = header_paragraph.add_run()
                             run.add_picture(logo_path, width=Inches(4))
-                            format_content(doc, result)
+                            # Add the custom headings at the top of the first page
+                            lines = result.splitlines()
+                            if first_heading:
+                                doc.add_heading(first_heading, level=1)
+                            if second_heading:
+                                doc.add_heading(second_heading, level=1)
+                            if third_heading:
+                                doc.add_heading(third_heading, level=1)
+
+                            collecting_content = True  # Start collecting content after initial headings
+
+                            # Initialize variables
+                            current_heading = None
+
+                            # Function to check if a line is a month heading
+                            def is_month_heading(text):
+                                return re.match(r'^For\s\w+:', text)
+
+                            # Function to check if the text is a heading
+                            def is_heading(text):
+                                return re.match(r'^\*\*.*\*\*$', text.strip())
+
+                            # Function to get the heading text without asterisks
+                            def get_heading_text(text):
+                                return text.strip().strip('*')
+
+                            # Function to check if heading is 'Talking Points'
+                            def is_talking_points(heading_text):
+                                return heading_text == 'Talking Points'
+
+                            # Function to check if heading is 'Social Media Topic Ideas'
+                            def is_social_media_topic_ideas(heading_text):
+                                return heading_text == 'Social Media Topic Ideas'
+
+                            # Function to check if heading is 'Text Messaging Talking Points'
+                            def is_text_messaging_talking_points(heading_text):
+                                return heading_text == 'Text Messaging Talking Points'
+
+                            # Iterate over each line in the result text
+                            for line in lines:
+                                line_text = line.strip()
+                                # print("line_text:", line_text)
+
+                                # Check if the line is a heading
+                                if is_heading(line_text):
+                                    heading_text = get_heading_text(line_text)
+                                    # print("heading_text:", heading_text)
+
+                                    if heading_text in [first_heading, second_heading, third_heading]:
+                                        # These headings are already added on the first page
+                                        # So we skip adding them again but start collecting content if it's 'TRS Messages'
+                                        collecting_content = True
+                                        current_heading = heading_text
+                                        # print("Skipped heading already added:", heading_text)
+                                        continue
+
+                                    # If it's a month heading
+                                    elif is_month_heading(heading_text):
+                                        # Always add a page break before month headings
+                                        doc.add_page_break()
+                                        # Add the month heading
+                                        doc.add_heading(heading_text, level=1)
+                                        current_heading = heading_text
+                                        collecting_content = True
+                                        # print("Added month heading:", heading_text)
+
+                                    elif is_talking_points(heading_text):
+                                        # Add 'Talking Points' heading without page break
+                                        doc.add_heading(heading_text, level=1)
+                                        current_heading = heading_text
+                                        collecting_content = True
+                                        # print("Added 'Talking Points' heading:", heading_text)
+
+                                    elif is_social_media_topic_ideas(heading_text) or is_text_messaging_talking_points(heading_text):
+                                        # Add a page break before these headings
+                                        doc.add_page_break()
+                                        doc.add_heading(heading_text, level=1)
+                                        current_heading = heading_text
+                                        collecting_content = True
+                                        # print("Added heading with page break:", heading_text)
+
+                                    else:
+                                        # For any other heading, add a page break and then the heading
+                                        doc.add_page_break()
+                                        doc.add_heading(heading_text, level=1)
+                                        current_heading = heading_text
+                                        collecting_content = True
+                                        # print("Added other heading with page break:", heading_text)
+
+                                else:
+                                    # It's a normal paragraph
+                                    if collecting_content:
+                                        doc.add_paragraph(line_text)
+                                        # print("Added paragraph:", line_text)
+                                    else:
+                                        # Skip content before any headings
+                                        print("Skipped paragraph before any heading")
                             doc.save(college_response_file)
                             st.write(f"Saved: {college_response_file}")
                             uploaded_file_id = upload_to_drive(service, f"{folder['name']} response.docx", college_response_file, responses_folder_id)
@@ -365,6 +496,27 @@ if run_process and group:
                             print(result)
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
+                            extract_headings(result)
+                            # Extract headings and subheadings from the document
+                            all_headings = extract_headings(doc.paragraphs)
+                            print("all_headings:", all_headings)
+
+                            # Ensure there are enough headings to prevent IndexError
+                            if len(all_headings) >= 3:
+                                first_heading = all_headings[0]
+                                second_heading = all_headings[1]
+                                third_heading = all_headings[2]
+                                headings = all_headings[3:]
+                                print("first_heading:", first_heading)
+                                print("second_heading:", second_heading)
+                                print("third_heading:", third_heading)
+                                print("headings:", headings)
+                            else:
+                                print("Not enough headings found in the document.")
+                                first_heading = ""
+                                second_heading = ""
+                                third_heading = ""
+                                headings = []
                             doc = Document()
                             format_content(doc, result)
                             doc.save(college_response_file)
