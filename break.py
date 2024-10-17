@@ -177,7 +177,7 @@
 
 import re
 from docx import Document
-from docx.shared import Inches
+from docx.shared import Inches, Pt, RGBColor
 
 # Load the document
 doc = Document("colby break.docx")
@@ -223,11 +223,23 @@ else:
 
 # Add the custom headings at the top of the first page
 if first_heading:
-    new_doc.add_heading(first_heading, level=1)
+    heading = new_doc.add_heading(first_heading, level=1)
+    heading_font = heading.runs[0].font
+    heading_font.size = Pt(24) 
+    heading_font.color.rgb = RGBColor(11,83,148)
+    heading_font.bold = True
 if second_heading:
-    new_doc.add_heading(second_heading, level=1)
+    heading=new_doc.add_heading(second_heading, level=1)
+    heading_font = heading.runs[0].font
+    heading_font.size = Pt(24) 
+    heading_font.color.rgb = RGBColor(11,83,148)
+    heading_font.bold = True
 if third_heading:
-    new_doc.add_heading(third_heading, level=1)
+    heading = new_doc.add_heading(third_heading, level=1)
+    heading_font = heading.runs[0].font
+    heading_font.size = Pt(24) 
+    heading_font.color.rgb = RGBColor(11,83,148)
+    heading_font.bold = True
 
 collecting_content = True  # Start collecting content after initial headings
 
@@ -281,7 +293,10 @@ for para in doc.paragraphs:
             # Always add a page break before month headings
             new_doc.add_page_break()
             # Add the month heading
-            new_doc.add_heading(heading_text, level=1)
+            heading = new_doc.add_heading(heading_text, level=1)
+            heading_font = heading.runs[0].font
+            heading_font.size = Pt(18) 
+            heading_font.color.rgb = RGBColor(11,83,148)
             current_heading = heading_text
             collecting_content = True
             print("Added month heading:", heading_text)
@@ -289,6 +304,9 @@ for para in doc.paragraphs:
         elif is_talking_points(heading_text):
             # Add 'Talking Points' heading without page break
             new_doc.add_heading(heading_text, level=1)
+            heading_font = heading.runs[0].font
+            heading_font.size = Pt(18) 
+            heading_font.color.rgb = RGBColor(230,145,56)
             current_heading = heading_text
             collecting_content = True
             print("Added 'Talking Points' heading:", heading_text)
@@ -297,6 +315,9 @@ for para in doc.paragraphs:
             # Add a page break before these headings
             new_doc.add_page_break()
             new_doc.add_heading(heading_text, level=1)
+            heading_font = heading.runs[0].font
+            heading_font.size = Pt(18) 
+            heading_font.color.rgb = RGBColor(230,145,56)
             current_heading = heading_text
             collecting_content = True
             print("Added heading with page break:", heading_text)
@@ -304,7 +325,10 @@ for para in doc.paragraphs:
         else:
             # For any other heading, add a page break and then the heading
             new_doc.add_page_break()
-            new_doc.add_heading(heading_text, level=1)
+            heading = new_doc.add_heading(heading_text, level=1)
+            heading_font = heading.runs[0].font
+            heading_font.size = Pt(18) 
+            heading_font.color.rgb = RGBColor(230,145,56)
             current_heading = heading_text
             collecting_content = True
             print("Added other heading with page break:", heading_text)
@@ -312,8 +336,13 @@ for para in doc.paragraphs:
     else:
         # It's a normal paragraph
         if collecting_content:
-            new_doc.add_paragraph(para.text)
-            print("Added paragraph:", para.text)
+            para = new_doc.add_paragraph(para.text)
+            if para.runs:
+                paragraph_font = para.runs[0].font
+                # Set font size and other properties as needed
+                paragraph_font.size = Pt(12)  # Example of setting the font size
+            else:
+                print("Paragraph has no runs:", para.text)
         else:
             # Skip content before any headings
             print("Skipped paragraph before any heading")

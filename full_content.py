@@ -13,7 +13,7 @@ from decouple import config
 import zipfile
 from  groq import Groq
 import anthropic
-from docx.shared import Inches
+from docx.shared import Inches, Pt, RGBColor
 
 
 # Set OpenAI key
@@ -115,7 +115,7 @@ For [Month]:
 **Main Topic**: The randomly assigned topic for that month.
 **Talking Points (8 elaborated points in question form)**:  The talking points should explore the student's personal preferences, concerns, and expectations. Make sure the questions are open-ended and encourage the student to reflect on their experiences and aspirations. Use a friendly and informal tone, as if a college recruiter or coach is having a one-on-one conversation with the student.
 Make sure that all the points are detailed.
-**Social Media Topic Ideas (8 elaborated points)**: Suggest detailed creative ideas for social media posts that the college can use to promote the main topic of the month.
+**Social Media Topic Ideas (8 elaborated points)**: Generate 8 points alternating between platform-specific social media post ideas and related social activities for the main topic of the month. For each point: Provide a creative post idea for a specific platform (Instagram, Snapchat, Twitter (X), LinkedIn, Reddit, YouTube, Facebook). Suggest a related social activity that students and teammates can organize to build engagement and community around the post's theme.
 **Text Messaging Talking Points (8 elaborated points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
 Ensure each section contains longer sentences with detailed content that can be easily understood by teenagers. Make sure the headings, subheadings, and bullet points remain well-organized in the final output.
 
@@ -231,22 +231,22 @@ def prompt_generator_for_sonnet(content,user_input,full_months):
     """
     return prompt_temp
 
-# Function to format and save content in .docx
-def format_content(doc, content):
-    lines = content.splitlines()
-    for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-        if re.match(r'^\*\*.+\*\*$', line):
-            doc.add_heading(line.replace('**', ''), level=1)
-        elif re.match(r'^\*.+\*$', line):
-            doc.add_heading(line.replace('*', ''), level=2)
-        elif line.startswith("-"):
-            if len(line) > 5:
-                doc.add_paragraph(line[1::], style='List Bullet')
-        else:
-            doc.add_paragraph(line)
+# # Function to format and save content in .docx
+# def format_content(doc, content):
+#     lines = content.splitlines()
+#     for line in lines:
+#         line = line.strip()
+#         if not line:
+#             continue
+#         if re.match(r'^\*\*.+\*\*$', line):
+#             doc.add_heading(line.replace('**', ''), level=1)
+#         elif re.match(r'^\*.+\*$', line):
+#             doc.add_heading(line.replace('*', ''), level=2)
+#         elif line.startswith("-"):
+#             if len(line) > 5:
+#                 doc.add_paragraph(line[1::], style='List Bullet')
+#         else:
+#             doc.add_paragraph(line)
 
 
 # Function to extract headings using regex from a plain string
@@ -370,7 +370,7 @@ if run_process and group:
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
                             doc = Document()
-                            format_content(doc, result)
+                            # format_content(doc, result)
                             section = doc.sections[0]
                             header = section.header
 
@@ -382,11 +382,23 @@ if run_process and group:
                             # Add the custom headings at the top of the first page
                             lines = result.splitlines()
                             if first_heading:
-                                doc.add_heading(first_heading, level=1)
+                                heading = doc.add_heading(first_heading, level=1)
+                                heading_font = heading.runs[0].font
+                                heading_font.size = Pt(24) 
+                                heading_font.color.rgb = RGBColor(11,83,148)
+                                heading_font.bold = True
                             if second_heading:
-                                doc.add_heading(second_heading, level=1)
+                                heading = doc.add_heading(second_heading, level=1)
+                                heading_font = heading.runs[0].font
+                                heading_font.size = Pt(24)
+                                heading_font.color.rgb = RGBColor(230,145,56)
+                                heading_font.bold = True
                             if third_heading:
-                                doc.add_heading(third_heading, level=1)
+                                heading = doc.add_heading(third_heading, level=1)
+                                heading_font = heading.runs[0].font
+                                heading_font.size = Pt(24)
+                                heading_font.color.rgb = RGBColor(230,145,56)
+                                heading_font.bold = True
 
                             collecting_content = True  # Start collecting content after initial headings
 
@@ -440,14 +452,21 @@ if run_process and group:
                                         # Always add a page break before month headings
                                         doc.add_page_break()
                                         # Add the month heading
-                                        doc.add_heading(heading_text, level=1)
+                                        # doc.add_heading(heading_text, level=1)
+                                        heading = doc.add_heading(heading_text, level=1)
+                                        heading_font = heading.runs[0].font
+                                        heading_font.size = Pt(16)
+                                        heading_font.color.rgb = RGBColor(11,83,148)
                                         current_heading = heading_text
                                         collecting_content = True
                                         # print("Added month heading:", heading_text)
 
                                     elif is_talking_points(heading_text):
                                         # Add 'Talking Points' heading without page break
-                                        doc.add_heading(heading_text, level=1)
+                                        heading = doc.add_heading(heading_text, level=1)
+                                        heading_font = heading.runs[0].font
+                                        heading_font.size = Pt(16)
+                                        heading_font.color.rgb = RGBColor(230,145,56)
                                         current_heading = heading_text
                                         collecting_content = True
                                         # print("Added 'Talking Points' heading:", heading_text)
@@ -456,6 +475,9 @@ if run_process and group:
                                         # Add a page break before these headings
                                         doc.add_page_break()
                                         doc.add_heading(heading_text, level=1)
+                                        heading_font = heading.runs[0].font
+                                        heading_font.size = Pt(16)
+                                        heading_font.color.rgb = RGBColor(230,145,56)
                                         current_heading = heading_text
                                         collecting_content = True
                                         # print("Added heading with page break:", heading_text)
@@ -463,16 +485,41 @@ if run_process and group:
                                     else:
                                         # For any other heading, add a page break and then the heading
                                         doc.add_page_break()
-                                        doc.add_heading(heading_text, level=1)
+                                        heading = doc.add_heading(heading_text, level=1)
+                                        heading_font = heading.runs[0].font
+                                        heading_font.size = Pt(16)
+                                        heading_font.color.rgb = RGBColor(230,145,56)
                                         current_heading = heading_text
                                         collecting_content = True
                                         # print("Added other heading with page break:", heading_text)
 
                                 else:
-                                    # It's a normal paragraph
+                                    # It's a normal paragraph or bullet point
                                     if collecting_content:
-                                        doc.add_paragraph(line_text)
-                                        # print("Added paragraph:", line_text)
+                                        if line.startswith("-") or re.match(r'^\d+\.', line): 
+                                            if len(line) > 5: # Handle numeric or bullet points
+                                                # Add bullet points
+                                                paragraph = doc.add_paragraph(line[1:].strip(), style='List Bullet')
+                                                if paragraph.runs:
+                                                    paragraph_font = paragraph.runs[0].font
+                                                    # Set font size and other properties as needed
+                                                    paragraph_font.size = Pt(12)  # Example of setting the font size
+                                                else:
+                                                    print("Paragraph has no runs:", paragraph.text)
+                                                
+                                            # print("Added bullet point:", line[1:].strip())
+                                        else:
+                                            
+                                            # Add a regular paragraph
+                                            paragraph = doc.add_paragraph(line_text)
+                                            if paragraph.runs:
+                                                paragraph_font = paragraph.runs[0].font
+                                                # Set font size and other properties as needed
+                                                paragraph_font.size = Pt(12)  # Example of setting the font size
+                                            else:
+                                                print("Paragraph has no runs:", paragraph.text)
+                                            # doc.add_paragraph(line_text)
+                                            # print("Added paragraph:", line_text)
                                     else:
                                         # Skip content before any headings
                                         print("Skipped paragraph before any heading")
@@ -518,7 +565,7 @@ if run_process and group:
                                 third_heading = ""
                                 headings = []
                             doc = Document()
-                            format_content(doc, result)
+                            # format_content(doc, result)
                             doc.save(college_response_file)
                             st.write(f"Saved: {college_response_file}")
                             uploaded_file_id = upload_to_drive(service, f"{folder['name']} response.docx", college_response_file, responses_folder_id)
@@ -550,7 +597,7 @@ if run_process and group:
                             # Save response in .docx
                             college_response_file = os.path.join(response_folder, f"{folder['name']} response.docx")
                             doc = Document()
-                            format_content(doc, result)
+                            # format_content(doc, result)
                             doc.save(college_response_file)
                             st.write(f"Saved: {college_response_file}")
                             # Upload the generated .docx file to the 'Group A responses' folder in Google Drive
