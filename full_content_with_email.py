@@ -117,6 +117,11 @@ For [Month]:
 Make sure that all the points are detailed.
 **Social Media Topic Ideas (8 elaborated points)**: Generate creative social media post ideas and related social activities for engaging college students and athletes. For each social media platform suggestion, follow it up with a related social activity idea. Ensure that the points alternate between social media content and social activity. The platforms should include Instagram, Snapchat, Twitter (X), Facebook, YouTube, LinkedIn, Reddit, and TikTok. The goal is to balance digital engagement with in-person or virtual team-building activities.
 **Text Messaging Talking Points (8 elaborated points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
+ Draft an email or letter outline for each week of the month. Include:
+-Week 1: Introduction to the month’s theme and invitation for questions.
+-Week 2: Share personal stories or testimonials related to the theme.
+-Week 3: Provide valuable insights or resources (like facility tours).
+-Week 4: Encourage recruits to envision themselves in the program and invite further questions.
 Ensure each section contains longer sentences with detailed content that can be easily understood by teenagers. Make sure the headings, subheadings, and bullet points remain well-organized in the final output.
 
 **IMPORTANT** This is an Example Content for reference for Talking Points, Social Media Topic Ideas, and Text Messaging Talking Points:
@@ -166,21 +171,60 @@ In {full_months[3]}: Brief description about randomly assigned topic 4 in the sa
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
+The email should be written in a following format:
+    
+    **{full_months[0]}/randomly assigned topic above**
+    **WEEK 1**
+    **Email 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Email content  
+    <Coach Info>
+    
+
+
 
 **For {full_months[1]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
+The email should be written in a following format:
+    
+    **{full_months[1]}/randomly assigned topic above**
+    **WEEK 1**
+    **Email 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Email content  
+    <Coach Info>
 
 **For {full_months[2]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
+The email should be written in a following format:
+    
+    **{full_months[2]}/randomly assigned topic above**
+    **WEEK 1**
+    **Email 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Email content  
+    <Coach Info>
 
 **For {full_months[3]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
+The email should be written in a following format:
+    
+    **{full_months[3]}/randomly assigned topic above**
+    **WEEK 1**
+    **Email 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Email content  
+    <Coach Info>
 
 Make the text more conversational, and write it in a way that would make a 16 to 18 year old teenager engage with the content and be prompted to respond and interact with the coach who is sending these
 Look for any grammatical errors and correct them.
@@ -190,6 +234,9 @@ Use the content from the {docx_content} to fill in the placeholders for the talk
 Ensure that the headings, subheadings, and bullet points remain organized in the final output.
 Make sure every college follows the same template structure.
 ONLY include the content necessary for generating the recruiting message. Do not add any extra or irrelevant details.
+
+
+
 
 """
 
