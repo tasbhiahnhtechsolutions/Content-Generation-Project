@@ -83,9 +83,167 @@ def upload_to_drive(service, file_name, file_path, folder_id):
 
 
 # Function to generate prompt for GPT
+# def prompt_generator(content,user_input,full_months):
+#     prompt = f"""
+# Using the content from the provided document {docx_content}, generate a detailed recruiting message that follows this structure:
+
+# 1. **College Name and Sport**: Clearly mention the college and sport at the top.
+# 2. **Time Period "{user_input}"**: Include the time period of the message.
+# 3. **TRS Messages**: Provide an overview of the monthly focus topics for each month. Each month should be randomly assigned one of the following topics:
+# History and Vision for the Program
+# Athletic Facilities
+# Life After College
+# Academics
+# Athletic Atmosphere at the School
+# Dorms and Campus Life
+# Coaching
+# The Freshman Experience
+# Location and Area
+# Our Team
+# For each month, the TRS message should look like this format:
+
+# In September The residence halls and general everyday life on campus for students and athletes will be the focus, based on your team’s feedback at <college1> and others nationwide. This is an important topic for this generation of recruits.
+# In October: The athletic atmosphere at <college1> will be the focus, giving recruits an idea of what it’s like to compete and live as a student-athlete at <college1>.
+# In November: The athletic facilities at <college1> will be highlighted, emphasizing how your training philosophy prepares athletes to compete at the collegiate level.
+# In December: We’ll focus on the <sport> team at <college1>, including insights into the team atmosphere, based on recent findings from your focus group survey.
+# *VERY IMPORTANT*: Ensure each section contains more content, with longer sentences under each heading to provide comprehensive information.
+
+# For each month ({full_months[0]}, {full_months[1]}, {full_months[2]}, and {full_months[3]}), follow this structure:
+
+# For [Month]:
+
+# **Main Topic**: The randomly assigned topic for that month.
+# **Talking Points (8 elaborated points in question form)**:  The talking points should explore the student's personal preferences, concerns, and expectations. Make sure the questions are open-ended and encourage the student to reflect on their experiences and aspirations. Use a friendly and informal tone, as if a college recruiter or coach is having a one-on-one conversation with the student.
+# Make sure that all the points are detailed.
+# **Social Media Topic Ideas (8 elaborated points)**: Generate creative social media post ideas and related social activities for engaging college students and athletes. For each social media platform suggestion, follow it up with a related social activity idea. Ensure that the points alternate between social media content and social activity. The platforms should include Instagram, Snapchat, Twitter (X), Facebook, YouTube, LinkedIn, Reddit, and TikTok. The goal is to balance digital engagement with in-person or virtual team-building activities.
+# **Text Messaging Talking Points (8 elaborated points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
+#  Draft an email or letter outline for each week of the month. Include:
+# -Week 1: Introduction to the month’s theme and invitation for questions.
+# -Week 2: Share personal stories or testimonials related to the theme.
+# -Week 3: Provide valuable insights or resources (like facility tours).
+# -Week 4: Encourage recruits to envision themselves in the program and invite further questions.
+# Ensure each section contains longer sentences with detailed content that can be easily understood by teenagers. Make sure the headings, subheadings, and bullet points remain well-organized in the final output.
+
+# **IMPORTANT** This is an Example Content for reference for Talking Points, Social Media Topic Ideas, and Text Messaging Talking Points:
+
+# Talking Points Example:
+
+# -What have your parents said when it comes to the idea of living on a college campus and being away at college?
+# -Aside from <sport>, do you see yourself getting involved in any other aspects of college life? Have you thought about what you’ll be doing in between classes and practice?
+# -What kind of atmosphere do you prefer when it comes to dorm life? (Are you a morning person or a night owl?)
+# -What are your feelings about living away from home?
+# -How do you picture college life?
+# -Walk me through some of the things you’re a little nervous about:
+# -Are you more of a private person? Shy or outgoing?
+# -How do you feel about the idea of having a roommate?
+# --Do you have any food allergies (or just preferences)? Are you a picky eater?
+
+# Social Media Topic Ideas Example:
+
+# -One picture a week inside the dorms - rooms, common areas, etc. Our studies show that your prospects need a peek at what they would see on campus as a way to get them to commit to visiting campus.
+# -Encourage your team to get together and do a live stream on social media just for your recruits. Do it from where they live, and let them go around and tell recruits what it’s like on campus.
+# -Include your team in as much as possible. Let them show off their dorm rooms and have some fun with it!
+# -Try to get someone NOT associated with your team or athletic department to write a quick post with their picture, talking about life on campus and their role. Begin introducing your prospects to the people outside of their sport that they need to hear from.
+# -Let your team know we’re talking about this and ask them to create some posts about it. Get them directly involved!
+# -Twitter: Tweet your Top 20 short comments from your team about the dorm, spread out over the month. Have them tweet it, and then you retweet it.
+# -Video focus: Where they’ll eat. Get a video of your team getting food, where they sit and eat, etc. Post that on all social media video outlets.
+# -When it comes to the topic of where they live, your own athletes are the best at coming up with topics and visuals - rely on them to come up with ideas surrounding the space where they live.
+
+# -Text Messaging Talking Points Example:
+
+# -What do you think your life is going to look like when you aren’t practicing or in class? Have you thought about that yet?
+# -[Coach: If there’s any particularly fun campus event that goes on, feel free to text your recruits about it. Include a picture!]
+# -Reply back with your first instinct…now that you know a little bit about us, can you see yourself enjoying life on <college1>’s campus?
+# -<Prospect Name>…what’s your favorite post-practice meal? My athletes love <mention food/snacks available on campus>.
+# -What are some things you’d like to know about our dorms—the place where you would be living as a student-athlete here? [OR IF ALREADY VISITED: “I’m wondering…what do you remember about our dorms when you visited? Did you like them?”]
+# Keep in mind that this is just for reference donot use its content in the content you will be generating.
+
+# Ensure the output aligns with the template format below:
+
+# **<College Name> <Sport>**
+# **{user_input}**
+# **TRS Messages**
+# In {full_months[0]} Brief description about randomly assigned topic 1 in the same format as provide above.
+# In {full_months[1]}: Brief description about randomly assigned topic 2 in the same format as provide above.
+# In {full_months[2]}: Brief description about randomly assigned topic 3 in the same format as provide above.
+# In {full_months[3]}: Brief description about randomly assigned topic 4 in the same format as provide above.
+# **For {full_months[0]}: Main Topic**
+# **Talking Points**
+# **Social Media Topic Ideas**
+# **Text Messaging Talking Points**
+# The email should be written in a following format:
+    
+#     **{full_months[0]}/randomly assigned topic above**
+#     **WEEK 1**
+#     **Email 1**
+#     **Suggested subject line**: Subject line
+#     <Prospect Name>
+#     Email content  
+#     <Coach Info>
+    
+
+
+
+# **For {full_months[1]}: Main Topic**
+# **Talking Points**
+# **Social Media Topic Ideas**
+# **Text Messaging Talking Points**
+# The email should be written in a following format:
+    
+#     **{full_months[1]}/randomly assigned topic above**
+#     **WEEK 1**
+#     **Email 1**
+#     **Suggested subject line**: Subject line
+#     <Prospect Name>
+#     Email content  
+#     <Coach Info>
+
+# **For {full_months[2]}: Main Topic**
+# **Talking Points**
+# **Social Media Topic Ideas**
+# **Text Messaging Talking Points**
+# The email should be written in a following format:
+    
+#     **{full_months[2]}/randomly assigned topic above**
+#     **WEEK 1**
+#     **Email 1**
+#     **Suggested subject line**: Subject line
+#     <Prospect Name>
+#     Email content  
+#     <Coach Info>
+
+# **For {full_months[3]}: Main Topic**
+# **Talking Points**
+# **Social Media Topic Ideas**
+# **Text Messaging Talking Points**
+# The email should be written in a following format:
+    
+#     **{full_months[3]}/randomly assigned topic above**
+#     **WEEK 1**
+#     **Email 1**
+#     **Suggested subject line**: Subject line
+#     <Prospect Name>
+#     Email content  
+#     <Coach Info>
+
+# Make the text more conversational, and write it in a way that would make a 16 to 18 year old teenager engage with the content and be prompted to respond and interact with the coach who is sending these
+# Look for any grammatical errors and correct them.
+# VERY IMPORTANT: Place the proper spacing between paragraphs in the revised text
+# Keep the same layout format in place when you construct your revised text
+# Use the content from the {docx_content} to fill in the placeholders for the talking points, social media ideas, and text messaging points.
+# Ensure that the headings, subheadings, and bullet points remain organized in the final output.
+# Make sure every college follows the same template structure.
+# ONLY include the content necessary for generating the recruiting message. Do not add any extra or irrelevant details.
+
+
+
+
+# """
+
+
 def prompt_generator(content,user_input,full_months):
     prompt = f"""
-Using the content from the provided document {docx_content}, generate a detailed recruiting message that follows this structure:
+Using the content from the provided document {docx_content} to fill in the placeholders only, generate a detailed recruiting message that follows this structure:
 
 1. **College Name and Sport**: Clearly mention the college and sport at the top.
 2. **Time Period "{user_input}"**: Include the time period of the message.
@@ -117,11 +275,15 @@ For [Month]:
 Make sure that all the points are detailed.
 **Social Media Topic Ideas (8 elaborated points)**: Generate creative social media post ideas and related social activities for engaging college students and athletes. For each social media platform suggestion, follow it up with a related social activity idea. Ensure that the points alternate between social media content and social activity. The platforms should include Instagram, Snapchat, Twitter (X), Facebook, YouTube, LinkedIn, Reddit, and TikTok. The goal is to balance digital engagement with in-person or virtual team-building activities.
 **Text Messaging Talking Points (8 elaborated points in question form)**: Create engaging questions recruiters can send to prospects via text message, tailored to the main topic of the month.
- Draft an email or letter outline for each week of the month. Include:
--Week 1: Introduction to the month’s theme and invitation for questions.
--Week 2: Share personal stories or testimonials related to the theme.
--Week 3: Provide valuable insights or resources (like facility tours).
--Week 4: Encourage recruits to envision themselves in the program and invite further questions.
+Draft an email templates for the recruited candidate, one for Week 1, Week 2, and Week 4, along with a letter for the parent in Week 2 and a letter for the coach in Week 1. Each communication should align with the monthly outline:
+Week 1 (Candidate Email 1): Introduce the month’s theme and invite the candidate to ask any questions they may have.
+Week 2 (Candidate Email 2): Share personal stories or testimonials related to the theme to help the candidate feel more connected.
+Week 2 (Parent Letter): Address concerns of the prospect's family, emphasizing the school's support system and the holistic development of the student-athlete.
+Week 3 (Candidate Email 3): Encourage the candidate to envision themselves as part of the program, and invite any final questions they might have.
+Week 4 (Coach Letter): A motivational letter from the coach to the student-athlete, providing insights into the program and expressing excitement for their potential involvement.
+Week 4 (Letter 1): A direct, personal letter to the prospect, focusing on their aspirations and why the program fits their future.
+Ensure each email and letter is detailed and written in a warm, conversational tone.
+
 Ensure each section contains longer sentences with detailed content that can be easily understood by teenagers. Make sure the headings, subheadings, and bullet points remain well-organized in the final output.
 
 **IMPORTANT** This is an Example Content for reference for Talking Points, Social Media Topic Ideas, and Text Messaging Talking Points:
@@ -170,61 +332,194 @@ In {full_months[3]}: Brief description about randomly assigned topic 4 in the sa
 **For {full_months[0]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
-**Text Messaging Talking Points**
-The email should be written in a following format:
+The email and letters should be written in a following format:
     
     **{full_months[0]}/randomly assigned topic above**
     **WEEK 1**
     **Email 1**
     **Suggested subject line**: Subject line
     <Prospect Name>
-    Email content  
+    Week 1(Candidate Email 1) detailed content  
     <Coach Info>
     
+    **{full_months[0]}/randomly assigned topic above**
+    **WEEK 2**
+    **Email 2**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 2(Candidate Email 2) detailed content  
+    <Coach Info>
 
+    **{full_months[0]}/randomly assigned topic above**
+    **WEEK 2**
+    **Parent Letter**
+    
+    <Prospect Name>
+    Week 2 (Parent Letter) detailed content  
+    <Coach Info>
+
+    **{full_months[0]}/randomly assigned topic above**
+    **WEEK 3**
+    **Letter 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 3(Letter 1) content   
+    <Coach Info>
+
+
+    **{full_months[0]}/randomly assigned topic above**
+    **WEEK 4**
+    **Coach Letter**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 4(Coach Letter) detailed content   
+    <Coach Info>
 
 
 **For {full_months[1]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
-The email should be written in a following format:
+The email and letters should be written in a following format:
     
     **{full_months[1]}/randomly assigned topic above**
     **WEEK 1**
     **Email 1**
     **Suggested subject line**: Subject line
     <Prospect Name>
-    Email content  
+    Week 1(Candidate Email 1)  detailed content  
+    <Coach Info>
+    
+    **{full_months[1]}/randomly assigned topic above**
+    **WEEK 2**
+    **Parent Letter**
+    
+    <Prospect Name>
+    Week 2 (Parent Letter) detailed content  
+    <Coach Info>
+    
+
+    **{full_months[1]}/randomly assigned topic above**
+    **Week 2**
+    **Email 2**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 2(Candidate Email 2) detailed content  
+    <Coach Info>
+
+    **{full_months[1]}/randomly assigned topic above**
+    **WEEK 3**
+    **Email 3**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 3(Candidate Email 3) detailed content   
+    <Coach Info>
+
+
+    **{full_months[1]}/randomly assigned topic above**
+    **WEEK 4**
+    **Letter 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 4(Letter 1) detailed content   
     <Coach Info>
 
 **For {full_months[2]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
-The email should be written in a following format:
+The email and letters should be written in a following format:
     
     **{full_months[2]}/randomly assigned topic above**
     **WEEK 1**
     **Email 1**
     **Suggested subject line**: Subject line
     <Prospect Name>
-    Email content  
+    Week 1(Candidate Email 1) detailed content  
     <Coach Info>
+    
+    **{full_months[2]}/randomly assigned topic above**
+    **WEEK 2**
+    **Email 2**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 2(Candidate Email 2) detailed content  
+    <Coach Info>
+
+    **{full_months[2]}/randomly assigned topic above**
+    **WEEK 3**
+    **Parent Letter**
+    
+    <Prospect Name>
+    Week 2 (Parent Letter) detailed content  
+    <Coach Info>
+
+    **{full_months[2]}/randomly assigned topic above**
+    **WEEK 3**
+    **Coach Letter**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 3(Coach Letter) detailed content   
+    <Coach Info>
+
+
+    **{full_months[2]}/randomly assigned topic above**
+    **WEEK 4**
+    **Letter 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 4(Letter 1) detailed content   
+    <Coach Info>
+
 
 **For {full_months[3]}: Main Topic**
 **Talking Points**
 **Social Media Topic Ideas**
 **Text Messaging Talking Points**
-The email should be written in a following format:
+The email and letters should be written in a following format:
     
     **{full_months[3]}/randomly assigned topic above**
     **WEEK 1**
     **Email 1**
     **Suggested subject line**: Subject line
     <Prospect Name>
-    Email content  
+    Week 1(Candidate Email) detailed content  
     <Coach Info>
+    
+    **{full_months[3]}/randomly assigned topic above**
+    **WEEK 2**
+    **Parent Letter**
+    
+    <Prospect Name>
+    Week 2 (Parent Letter) detailed content 
+    <Coach Info>
+    
+
+    **{full_months[3]}/randomly assigned topic above**
+    **Week 2**
+    **Email 2**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 2(Candidate Email) detailed content 
+    <Coach Info>
+
+    **{full_months[3]}/randomly assigned topic above**
+    **WEEK 3**
+    **Email 3**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 3(Candidate Email) detailed content  
+    <Coach Info>
+
+
+    **{full_months[3]}/randomly assigned topic above**
+    **WEEK 4**
+    **Letter 1**
+    **Suggested subject line**: Subject line
+    <Prospect Name>
+    Week 4(Letter 1) detailed content
+    <Coach Info>
+
 
 Make the text more conversational, and write it in a way that would make a 16 to 18 year old teenager engage with the content and be prompted to respond and interact with the coach who is sending these
 Look for any grammatical errors and correct them.
@@ -239,6 +534,8 @@ ONLY include the content necessary for generating the recruiting message. Do not
 
 
 """
+
+  
 
     return prompt
 # def prompt_generator(content):
@@ -417,7 +714,7 @@ if run_process and group:
                         promptt = prompt_generator_for_sonnet(docx_content,user_input,full_months)
                         if model_selection == "ChatGPT-4":
                             response = openai.ChatCompletion.create(
-                                model="gpt-4o",
+                                model="gpt-4-turbo",
                                 messages=[
                                     {"role": "system", "content": "You are a helpful assistant."},
                                     {"role": "user", "content": prompt_template}
